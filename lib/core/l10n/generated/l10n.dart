@@ -58,13 +58,31 @@ class S {
   String get hello {
     return Intl.message('Hello World', name: 'hello', desc: '', args: []);
   }
+
+  /// `Welcome to Flutter`
+  String get welcome {
+    return Intl.message(
+      'Welcome to Flutter',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weather App`
+  String get appTitle {
+    return Intl.message('Weather App', name: 'appTitle', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationDelegate();
 
   List<Locale> get supportedLocales {
-    return const <Locale>[Locale.fromSubtags(languageCode: 'en')];
+    return const <Locale>[
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ru'),
+    ];
   }
 
   @override

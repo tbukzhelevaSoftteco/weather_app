@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/features/location/data/datasources/location_data_source.dart';
-import 'package:weather_app/features/location/data/repositories/location_repositories_impl.dart';
+import 'package:weather_app/features/location/data/datasources/location_data_source_impl.dart';
+import 'package:weather_app/features/location/data/repositories/location_repository_impl.dart';
 import 'package:weather_app/features/location/domain/usecases/get_current_location.dart';
+import 'package:weather_app/router/router.dart';
 
 @RoutePage()
 class GeolocationPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _GeolocationPageState extends State<GeolocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Weather App"), centerTitle: true),
+      appBar: AppBar(title: Text("Location App"), centerTitle: true),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -31,25 +32,17 @@ class _GeolocationPageState extends State<GeolocationPage> {
             ),
             SizedBox(height: 6),
             Text(
-              // "${_currentLocation}"
               "Latitude = ${_currentLocation?.latitude} ; Longitude = ${_currentLocation?.longitude}",
             ),
             SizedBox(height: 30.0),
             ElevatedButton(
               onPressed: () async {
-                _currentLocation = await GetCurrentLocation(
-                  LocationRepositoryImpl(LocationDataSourceImpl()),
-                ).call();
+                _currentLocation = await fetchLocation();
                 setState(() {});
                 print(_currentLocation);
-
-                /// Determine the current position of the device.
-
-                ///
-
-                /// When the location services are not enabled or permissions
-
-                /// are denied the `Future` will return an error.
+                if (_currentLocation != null) {
+                  context.router.push(WeatherRoute());
+                }
               },
               child: Text('get location'),
             ),
@@ -57,5 +50,12 @@ class _GeolocationPageState extends State<GeolocationPage> {
         ),
       ),
     );
+  }
+
+  Future<Position?> fetchLocation() async {
+    final currentLocation = await GetCurrentLocation(
+      LocationRepositoryImpl(LocationDataSourceImpl()),
+    ).call();
+    return currentLocation;
   }
 }

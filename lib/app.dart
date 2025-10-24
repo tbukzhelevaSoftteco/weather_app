@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:weather_app/core/l10n/generated/l10n.dart';
+import 'package:weather_app/common/l10n/generated/l10n.dart';
 import 'package:weather_app/router/router.dart';
 
 class MyApp extends StatefulWidget {

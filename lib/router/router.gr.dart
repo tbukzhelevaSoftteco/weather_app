@@ -1,17 +1,5 @@
-// dart format width=80
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
-// **************************************************************************
-// AutoRouterGenerator
-// **************************************************************************
-
-// ignore_for_file: type=lint
-// coverage:ignore-file
-
 part of 'router.dart';
 
-/// generated route for
-/// [GeolocationPage]
 class GeolocationRoute extends PageRouteInfo<void> {
   const GeolocationRoute({List<PageRouteInfo>? children})
     : super(GeolocationRoute.name, initialChildren: children);
@@ -26,8 +14,6 @@ class GeolocationRoute extends PageRouteInfo<void> {
   );
 }
 
-/// generated route for
-/// [WeatherPage]
 class WeatherRoute extends PageRouteInfo<void> {
   const WeatherRoute({List<PageRouteInfo>? children})
     : super(WeatherRoute.name, initialChildren: children);

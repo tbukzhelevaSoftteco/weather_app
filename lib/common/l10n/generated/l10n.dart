@@ -54,24 +54,14 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Hello World`
-  String get hello {
-    return Intl.message('Hello World', name: 'hello', desc: '', args: []);
-  }
-
-  /// `Welcome to Flutter`
-  String get welcome {
+  /// `Weather App`
+  String get weather_app_title {
     return Intl.message(
-      'Welcome to Flutter',
-      name: 'welcome',
+      'Weather App',
+      name: 'weather_app_title',
       desc: '',
       args: [],
     );
-  }
-
-  /// `Weather App`
-  String get appTitle {
-    return Intl.message('Weather App', name: 'appTitle', desc: '', args: []);
   }
 }
 

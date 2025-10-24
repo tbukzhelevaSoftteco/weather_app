@@ -1,3 +1,6 @@
 {
-  "weather_app_title": "Приложение Погода"
+  "weather_app_title": "Приложение Погода",
+  "location_coordinates": "Координаты Местоположения",
+  "get_location": "Получить Местоположение",
+  "Fetching location...": "Получение местоположения..."
 }

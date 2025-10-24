@@ -1,3 +1,6 @@
 {
-  "weather_app_title": "Weather App"
+  "weather_app_title": "Weather App",
+  "location_coordinates": "Location Coordinates",
+  "get_location": "Get Location",
+  "Fetching location...": "Fetching location..."
 }

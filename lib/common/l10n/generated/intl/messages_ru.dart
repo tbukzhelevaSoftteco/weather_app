@@ -22,6 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "get_location": MessageLookupByLibrary.simpleMessage(
+      "Получить Местоположение",
+    ),
+    "location_coordinates": MessageLookupByLibrary.simpleMessage(
+      "Координаты Местоположения",
+    ),
     "weather_app_title": MessageLookupByLibrary.simpleMessage(
       "Приложение Погода",
     ),

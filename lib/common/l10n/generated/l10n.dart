@@ -63,6 +63,28 @@ class S {
       args: [],
     );
   }
+
+  /// `Location Coordinates`
+  String get location_coordinates {
+    return Intl.message(
+      'Location Coordinates',
+      name: 'location_coordinates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get Location`
+  String get get_location {
+    return Intl.message(
+      'Get Location',
+      name: 'get_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  // skipped getter for the 'Fetching location...' key
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

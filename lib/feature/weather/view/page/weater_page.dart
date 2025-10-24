@@ -1,9 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
-import 'package:weather_app/feature/weather/data/model/weather_data_impl.dart';
-import 'package:weather_app/feature/weather/data/repository/weather_repository_impl.dart';
-import 'package:weather_app/feature/weather/domain/usecase/get_location_name.dart';
 
 @RoutePage()
 class WeatherPage extends StatefulWidget {
@@ -28,25 +24,9 @@ class _WeatherPageState extends State<WeatherPage> {
             SizedBox(height: 6),
             Text("Location = $_currentLocationName"),
             SizedBox(height: 30.0),
-            ElevatedButton(
-              onPressed: () async {
-                _currentLocationName = await fetchLocationName();
-                setState(() {});
-                print(_currentLocationName);
-              },
-              child: Text('get location'),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  Future<String?> fetchLocationName() async {
-    final currentLocation = await LocationRepositoryImpl().getCurrentLocation();
-    final locationName = await GetLocationName(
-      WeatherRepositoryImpl(WeatherDataSourceImpl()),
-    ).call(currentLocation);
-    return locationName;
   }
 }

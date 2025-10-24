@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/feature/location/data/datasource/location_data_source_impl.dart';
+import 'package:weather_app/feature/location/data/model/location_data_impl.dart';
 import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
-import 'package:weather_app/feature/location/domain/usecases/get_current_location.dart';
+import 'package:weather_app/feature/location/domain/usecase/get_current_location.dart';
 import 'package:weather_app/router/router.dart';
 
 @RoutePage()

@@ -1,10 +1,7 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/feature/location/domain/repository/location_repository.dart';
 
-abstract class LocationDataSource {
-  Future<Position> getCurrentLocation();
-}
-
-class LocationDataSourceImpl implements LocationDataSource {
+class LocationDataSourceImpl implements LocationRepository {
   @override
   Future<Position> getCurrentLocation() async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();

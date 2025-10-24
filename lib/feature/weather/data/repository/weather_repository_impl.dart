@@ -1,5 +1,5 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/feature/weather/data/datasource/weather_data_source_impl.dart';
+import 'package:weather_app/feature/weather/data/model/weather_data_impl.dart';
 import 'package:weather_app/feature/weather/domain/repository/weather_repository.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {

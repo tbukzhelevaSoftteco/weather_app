@@ -1,5 +1,5 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/features/weather/domain/repositories/weather_repository.dart';
+import 'package:weather_app/feature/weather/domain/repository/weather_repository.dart';
 
 class GetLocationName {
   final WeatherRepository repository;

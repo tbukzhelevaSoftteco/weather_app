@@ -1,6 +1,6 @@
-import 'package:weather_app/features/location/data/repositories/location_repository_impl.dart';
-import 'features/location/data/datasources/location_data_source_impl.dart';
-import 'features/location/domain/usecases/get_current_location.dart';
+import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
+import 'feature/location/data/datasource/location_data_source_impl.dart';
+import 'feature/location/domain/usecases/get_current_location.dart';
 
 GetCurrentLocation initGetCurrentLocationUseCase() {
   final locationDataSource = LocationDataSourceImpl();

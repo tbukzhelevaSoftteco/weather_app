@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/features/location/data/datasources/location_data_source_impl.dart';
-import 'package:weather_app/features/location/data/repositories/location_repository_impl.dart';
-import 'package:weather_app/features/location/domain/usecases/get_current_location.dart';
+import 'package:weather_app/feature/location/data/datasource/location_data_source_impl.dart';
+import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
+import 'package:weather_app/feature/location/domain/usecases/get_current_location.dart';
 import 'package:weather_app/router/router.dart';
 
 @RoutePage()
@@ -39,7 +39,6 @@ class _GeolocationPageState extends State<GeolocationPage> {
               onPressed: () async {
                 _currentLocation = await fetchLocation();
                 setState(() {});
-                print(_currentLocation);
                 if (_currentLocation != null) {
                   context.router.push(WeatherRoute());
                 }

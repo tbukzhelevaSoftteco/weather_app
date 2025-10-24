@@ -1,14 +1,38 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/feature/location/data/model/location_data_impl.dart';
 import 'package:weather_app/feature/location/domain/repository/location_repository.dart';
 
 class LocationRepositoryImpl implements LocationRepository {
-  final LocationDataSourceImpl dataSource;
+  @override
+  Future<Position> getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
 
-  LocationRepositoryImpl(this.dataSource);
+    final authorized =
+        permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always;
+
+    if (!authorized) throw Exception("Permission not granted");
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+  }
 
   @override
-  Future<Position> getCurrentLocation() {
-    return dataSource.getCurrentLocation();
+  Future<void> requestPermissions() async {
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      throw Exception("Location services are disabled.");
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        throw Exception("Location permissions are denied");
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      throw Exception("Location permissions are permanently denied.");
+    }
   }
 }

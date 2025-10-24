@@ -2,9 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/common/l10n/generated/l10n.dart';
-import 'package:weather_app/feature/location/data/model/location_data_impl.dart';
 import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
-import 'package:weather_app/feature/location/domain/usecase/get_current_location.dart';
 import 'package:weather_app/router/router.dart';
 
 @RoutePage()
@@ -56,9 +54,7 @@ class _GeolocationPageState extends State<GeolocationPage> {
   }
 
   Future<Position?> fetchLocation() async {
-    final currentLocation = await GetCurrentLocation(
-      LocationRepositoryImpl(LocationDataSourceImpl()),
-    ).call();
+    final currentLocation = await LocationRepositoryImpl().getCurrentLocation();
     return currentLocation;
   }
 }

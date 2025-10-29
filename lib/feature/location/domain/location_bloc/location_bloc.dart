@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/feature/location/domain/repository/location_repository.dart';
 
@@ -33,8 +34,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   ) async {
     emit(LocationLoadingName());
     try {
-      final locationName = await repository.getLocationName(event.position);
-      emit(LocationLoadName(locationName));
+      final locationData = await repository.getLocationName(event.position);
+      emit(LocationLoadName(locationData));
     } catch (e) {
       emit(LocationLoadNameError("Failed to fetch location name"));
     }

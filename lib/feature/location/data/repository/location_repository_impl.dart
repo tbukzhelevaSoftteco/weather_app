@@ -18,19 +18,15 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   @override
-  Future<String> getLocationName(Position position) async {
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
+  Future<Placemark> getLocationName(Position position) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
 
-      Placemark place = placemarks[0];
+    Placemark place = placemarks[0];
 
-      return "${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
-    } catch (e) {
-      return "Could not get address: $e";
-    }
+    return place;
   }
 
   @override

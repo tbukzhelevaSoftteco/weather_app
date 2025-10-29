@@ -16,9 +16,9 @@ final class LocationLoaded extends LocationState {
 }
 
 final class LocationLoadName extends LocationState {
-  final String locationName;
+  final Placemark locationData;
 
-  LocationLoadName(this.locationName);
+  LocationLoadName(this.locationData);
 }
 
 final class LocationLoadNameError extends LocationState {

@@ -1,10 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/common/l10n/generated/l10n.dart';
 import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
 import 'package:weather_app/feature/location/domain/location_bloc/location_bloc.dart';
-import 'package:weather_app/router/router.dart';
 
 class GeolocationPage extends StatefulWidget {
   const GeolocationPage({super.key}) : super();
@@ -15,7 +14,7 @@ class GeolocationPage extends StatefulWidget {
 
 class _GeolocationPageState extends State<GeolocationPage> {
   Position? _currentLocation;
-  String? _currentLocationName;
+  Placemark? _currentLocationData;
 
   late LocationBloc _locationBloc;
 
@@ -37,9 +36,6 @@ class _GeolocationPageState extends State<GeolocationPage> {
 
       _locationBloc.stream.listen((state) {
         if (state is LocationLoaded) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Location Name: ${state.location}')),
-          );
           setState(() {
             _currentLocation = state.location as Position;
           });
@@ -61,11 +57,8 @@ class _GeolocationPageState extends State<GeolocationPage> {
     _locationBloc.add(LoadLocationName(position));
     _locationBloc.stream.listen((state) {
       if (state is LocationLoadName) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Location Name: ${state.locationName}')),
-        );
         setState(() {
-          _currentLocationName = state.locationName as String?;
+          _currentLocationData = state.locationData;
         });
       } else if (state is LocationLoadNameError) {
         ScaffoldMessenger.of(
@@ -84,32 +77,10 @@ class _GeolocationPageState extends State<GeolocationPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              S.of(context).location_coordinates,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              _currentLocation != null
-                  ? "Latitude = ${_currentLocation!.latitude} ; Longitude = ${_currentLocation!.longitude}"
-                  : "",
-            ),
-            const SizedBox(height: 30.0),
-            Text(
-              _currentLocationName != null
-                  ? "Location Name: ${_currentLocationName!}"
-                  : "",
-            ),
-            const SizedBox(height: 30.0),
-            ElevatedButton(
-              onPressed: () {
-                context.router.push(WeatherRoute());
-              },
-              child: Text(S.of(context).get_location),
-            ),
+            Text(_currentLocationData?.locality ?? ""),
+            Text(_currentLocationData?.country ?? ""),
           ],
         ),
       ),

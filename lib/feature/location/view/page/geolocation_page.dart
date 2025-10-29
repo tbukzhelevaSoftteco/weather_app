@@ -15,6 +15,8 @@ class GeolocationPage extends StatefulWidget {
 
 class _GeolocationPageState extends State<GeolocationPage> {
   Position? _currentLocation;
+  String? _currentLocationName;
+
   late LocationBloc _locationBloc;
 
   @override
@@ -35,9 +37,13 @@ class _GeolocationPageState extends State<GeolocationPage> {
 
       _locationBloc.stream.listen((state) {
         if (state is LocationLoaded) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Location Name: ${state.location}')),
+          );
           setState(() {
             _currentLocation = state.location as Position;
           });
+          _loadLocationName(state.location!);
         } else if (state is LocationError) {
           ScaffoldMessenger.of(
             context,
@@ -49,6 +55,24 @@ class _GeolocationPageState extends State<GeolocationPage> {
         context,
       ).showSnackBar(SnackBar(content: Text(e.toString())));
     }
+  }
+
+  Future<void> _loadLocationName(Position position) async {
+    _locationBloc.add(LoadLocationName(position));
+    _locationBloc.stream.listen((state) {
+      if (state is LocationLoadName) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Location Name: ${state.locationName}')),
+        );
+        setState(() {
+          _currentLocationName = state.locationName as String?;
+        });
+      } else if (state is LocationLoadNameError) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.message)));
+      }
+    });
   }
 
   @override
@@ -71,7 +95,13 @@ class _GeolocationPageState extends State<GeolocationPage> {
             Text(
               _currentLocation != null
                   ? "Latitude = ${_currentLocation!.latitude} ; Longitude = ${_currentLocation!.longitude}"
-                  : S.of(context).get_location,
+                  : "",
+            ),
+            const SizedBox(height: 30.0),
+            Text(
+              _currentLocationName != null
+                  ? "Location Name: ${_currentLocationName!}"
+                  : "",
             ),
             const SizedBox(height: 30.0),
             ElevatedButton(

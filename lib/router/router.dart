@@ -8,7 +8,7 @@ part "router.gr.dart";
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: GeolocationRoute.page, initial: true),
-    AutoRoute(page: WeatherRoute.page),
+    AutoRoute(page: GeolocationRoute.page),
+    AutoRoute(page: WeatherRoute.page, initial: true),
   ];
 }

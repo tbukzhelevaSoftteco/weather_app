@@ -1,5 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:weather/weather.dart';
+import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
+import 'package:weather_app/feature/location/domain/location_bloc/location_bloc.dart';
+import 'package:weather_app/feature/weather/data/repository/weather_repository_impl.dart';
+import 'package:weather_app/feature/weather/domain/bloc/weather_bloc.dart';
 
 @RoutePage()
 class WeatherPage extends StatefulWidget {
@@ -10,7 +17,81 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
-  String? _currentLocationName;
+  Weather? _currentWeather;
+  Position? _currentLocation;
+  Placemark? _currentLocationData;
+
+  late WeatherBloc _weatherBloc;
+  late LocationBloc _locationBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _locationBloc = LocationBloc(LocationRepositoryImpl());
+
+    _weatherBloc = WeatherBloc(WeatherRepositoryImpl());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadWeather();
+      _loadLocation();
+    });
+  }
+
+  Future<void> _loadLocationName(Position position) async {
+    _locationBloc.add(LoadLocationName(position));
+    _locationBloc.stream.listen((state) {
+      if (state is LocationLoadName) {
+        setState(() {
+          _currentLocationData = state.locationData;
+        });
+      } else if (state is LocationLoadNameError) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.message)));
+      }
+    });
+  }
+
+  Future<void> _loadLocation() async {
+    try {
+      await _locationBloc.repository.requestPermissions();
+      _locationBloc.add(LoadLocation());
+      _locationBloc.stream.listen((state) {
+        if (state is LocationLoaded) {
+          setState(() {
+            _currentLocation = state.location as Position;
+          });
+          _loadLocationName(state.location!);
+        } else if (state is LocationError) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
+        }
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
+  Future<void> _loadWeather() async {
+    _weatherBloc.add(LoadWeather());
+    try {
+      await _weatherBloc.stream.listen((state) {
+        print('Weather State: $state');
+        if (state is WeatherLoaded) {
+          setState(() {
+            _currentWeather = state.weather;
+          });
+        }
+      }).asFuture();
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +99,14 @@ class _WeatherPageState extends State<WeatherPage> {
       appBar: AppBar(title: Text("Weather App"), centerTitle: true),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 6),
-            Text("Location = $_currentLocationName"),
-            SizedBox(height: 30.0),
+            Text(_currentLocationData?.locality ?? ""),
+            Text(_currentLocationData?.country ?? ""),
+            Text(
+              'Weather Description: ${_currentWeather?.weatherDescription}' ??
+                  "Loading...",
+            ),
           ],
         ),
       ),

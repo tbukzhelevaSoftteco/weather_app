@@ -22,10 +22,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     emit(WeatherLoading());
     try {
       final position = await Geolocator.getCurrentPosition();
-      print("Current Position!!!!!: $position");
       final weather = await repository.getWeatherByLocation(position);
-      print("Fetched Weather: $weather");
-      emit(WeatherLoaded(weather));
+      emit(WeatherLoadedByLocation(weather));
     } catch (e) {
       emit(WeatherError(e.toString()));
     }
@@ -38,8 +36,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     emit(WeatherLoading());
     try {
       final weather = await repository.getWeatherByCityName(event.cityName);
-      print("Fetched Weather: $weather");
-      emit(WeatherLoaded(weather));
+      emit(WeatherLoadedByCityName(weather));
     } catch (e) {
       emit(WeatherError(e.toString()));
     }

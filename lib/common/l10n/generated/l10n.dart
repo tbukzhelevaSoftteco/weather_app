@@ -83,8 +83,6 @@ class S {
       args: [],
     );
   }
-
-  // skipped getter for the 'Fetching location...' key
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

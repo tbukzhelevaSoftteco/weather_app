@@ -7,10 +7,15 @@ final class WeatherIdle extends WeatherState {}
 
 final class WeatherLoading extends WeatherState {}
 
-final class WeatherLoaded extends WeatherState {
-  final Weather weather;
+final class WeatherLoadedByLocation extends WeatherState {
+  final Weather weatherByLocation;
+  WeatherLoadedByLocation(this.weatherByLocation);
+}
 
-  WeatherLoaded(this.weather);
+final class WeatherLoadedByCityName extends WeatherState {
+  final Weather weatherByCityName;
+
+  WeatherLoadedByCityName(this.weatherByCityName);
 }
 
 final class WeatherError extends WeatherState {

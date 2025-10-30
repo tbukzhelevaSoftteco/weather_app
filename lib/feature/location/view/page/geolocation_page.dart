@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/common/l10n/generated/l10n.dart';
 import 'package:weather_app/feature/location/data/repository/location_repository_impl.dart';
 import 'package:weather_app/feature/location/domain/location_bloc/location_bloc.dart';
 
@@ -13,7 +12,6 @@ class GeolocationPage extends StatefulWidget {
 }
 
 class _GeolocationPageState extends State<GeolocationPage> {
-  Position? _currentLocation;
   Placemark? _currentLocationData;
 
   late LocationBloc _locationBloc;
@@ -36,9 +34,6 @@ class _GeolocationPageState extends State<GeolocationPage> {
 
       _locationBloc.stream.listen((state) {
         if (state is LocationLoaded) {
-          setState(() {
-            _currentLocation = state.location as Position;
-          });
           _loadLocationName(state.location!);
         } else if (state is LocationError) {
           ScaffoldMessenger.of(
@@ -71,18 +66,13 @@ class _GeolocationPageState extends State<GeolocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).weather_app_title),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(_currentLocationData?.locality ?? ""),
-            Text(_currentLocationData?.country ?? ""),
-          ],
-        ),
+      appBar: AppBar(centerTitle: true),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(_currentLocationData?.locality ?? ""),
+          Text(_currentLocationData?.country ?? ""),
+        ],
       ),
     );
   }

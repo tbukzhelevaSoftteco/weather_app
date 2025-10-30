@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:weather_app/feature/location/view/page/geolocation_page.dart';
-import 'package:weather_app/feature/weather/view/page/weater_page.dart';
+import 'package:weather_app/feature/weather/view/page/weather_page.dart';
 
 part "router.gr.dart";
 

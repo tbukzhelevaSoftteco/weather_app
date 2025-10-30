@@ -5,7 +5,7 @@ import 'package:weather_app/feature/location/data/repository/location_repository
 import 'package:weather_app/feature/location/domain/location_bloc/location_bloc.dart';
 import 'package:weather_app/feature/weather/data/repository/weather_repository_impl.dart';
 import 'package:weather_app/feature/weather/domain/bloc/weather_bloc.dart';
-import 'package:weather_app/feature/weather/view/page/weater_page.dart';
+import 'package:weather_app/feature/weather/view/page/weather_page.dart';
 
 @RoutePage()
 class WeatherPageScope extends StatelessWidget {

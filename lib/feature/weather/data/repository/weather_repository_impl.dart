@@ -5,11 +5,17 @@ import 'package:weather_app/feature/weather/domain/repository/weather_repository
 
 class WeatherRepositoryImpl implements WeatherRepository {
   @override
-  Future<Weather> getWeather(Position position) async {
+  Future<Weather> getWeatherByLocation(Position position) async {
     final weather = WeatherFactory(dotenv.env['WEATHER_API_KEY']!);
     return await weather.currentWeatherByLocation(
       position.latitude,
       position.longitude,
     );
+  }
+
+  @override
+  Future<Weather> getWeatherByCityName(String cityName) async {
+    final weather = WeatherFactory(dotenv.env['WEATHER_API_KEY']!);
+    return await weather.currentWeatherByCityName(cityName);
   }
 }

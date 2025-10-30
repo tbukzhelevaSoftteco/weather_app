@@ -76,7 +76,7 @@ class _WeatherPageState extends State<WeatherPage> {
   }
 
   Future<void> _loadWeather() async {
-    _weatherBloc.add(LoadWeather());
+    _weatherBloc.add(LoadWeatherByLocation());
     try {
       await _weatherBloc.stream.listen((state) {
         print('Weather State: $state');
